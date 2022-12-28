@@ -5,12 +5,17 @@ plugins {
 
 publishing {
     repositories {
-        maven {
+        maven("https://maven.pkg.github.com/yanneckreiss/KConMapper") {
+
             name = "KConMapper"
-            url = uri("https://maven.pkg.github.com/yanneckreiss/KConMapper")
-            credentials {
-                username = System.getenv("GITHUB_ACTOR")
-                password = System.getenv("GITHUB_TOKEN")
+
+            credentials(HttpHeaderCredentials::class.java) {
+                name = System.getenv("Authorization")
+                value = "Bearer ${System.getenv("PUBLISH_TOKEN")}"
+            }
+
+            authentication {
+                create<HttpHeaderAuthentication>("header")
             }
         }
     }
