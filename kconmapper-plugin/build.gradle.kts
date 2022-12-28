@@ -3,10 +3,14 @@ plugins {
     `maven-publish`
 }
 
+group = "de.yanneckreiss"
+version = "1.0.0-alpha01"
+
 publishing {
     repositories {
-        maven("https://maven.pkg.github.com/yanneckreiss/KConMapper") {
+        maven {
             name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/yanneckreiss/KConMapper")
             credentials {
                 username = System.getenv("GITHUB_ACTOR")
                 password = System.getenv("PUBLISH_TOKEN")
@@ -15,30 +19,8 @@ publishing {
     }
 
     publications {
-        create<MavenPublication>("gpr") {
-            groupId = "com.github.yanneckreiss"
-            artifactId = "kconmapper"
-            version = "1.0.0-alpha01"
-
+        register<MavenPublication>("gpr") {
             from(components["java"])
-
-            pom {
-                name.set("KConMapper")
-                description.set("A KSP plugin for generating constructor mapping extension functions.")
-                licenses {
-                    license {
-                        name.set("The Apache License, Version 2.0")
-                        url.set("https://www.apache.org/licenses/LICENSE-2.0.txt")
-                    }
-                }
-                developers {
-                    developer {
-                        id.set("yanneckreiss")
-                        name.set("Yanneck Reiß")
-                        email.set("support@kaspic.de")
-                    }
-                }
-            }
         }
     }
 }
