@@ -9,7 +9,7 @@ publishing {
             name = "KConMapper"
             version = "1.0.0-alpha01"
             credentials {
-                name = System.getenv("GITHUB_ACTOR")
+                username = System.getenv("GITHUB_ACTOR")
                 password = System.getenv("PUBLISH_TOKEN")
             }
         }
