@@ -170,7 +170,7 @@ Add the **KConMapper** plugin dependency:
 ```gradle
 dependencies {
     // ..
-    implementation 'com.github.yanneckreiss:kconmapper:1.0.0-alpha01'
+    implementation 'com.github.yanneckreiss:kconmapper:1.0.0-alpha02'
 }
 ```
 </details>
@@ -181,7 +181,7 @@ dependencies {
 ```kt
 dependencies {
  // ..
- implementation("com.github.yanneckreiss:kconmapper:1.0.0-alpha01")
+ implementation("com.github.yanneckreiss:kconmapper:1.0.0-alpha02")
 }
 ```
 </details>

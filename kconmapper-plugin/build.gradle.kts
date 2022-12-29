@@ -10,7 +10,7 @@ publishing {
             url = uri("https://maven.pkg.github.com/yanneckreiss/KConMapper")
             credentials {
                 username = System.getenv("GITHUB_ACTOR")
-                password = System.getenv("PUBLISH_TOKEN")
+                password = System.getenv("GITHUB_TOKEN")
             }
         }
     }
@@ -19,7 +19,7 @@ publishing {
         register<MavenPublication>("gpr") {
             groupId = "com.github.yanneckreiss"
             artifactId = "kconmapper"
-            version = "1.0.0-alpha01"
+            version = "1.0.0-alpha02"
 
             from(components["java"])
 
