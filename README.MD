@@ -1,5 +1,6 @@
-[![License Apache 2.0](https://img.shields.io/github/license/raamcosta/compose-destinations.svg?style=for-the-badge&color=orange)](https://opensource.org/licenses/Apache-2.0)
-[![kotlin](https://img.shields.io/github/languages/top/raamcosta/compose-destinations.svg?style=for-the-badge&color=blueviolet)](https://kotlinlang.org/)
+[![Version](https://img.shields.io/github/v/release/yanneckreiss/kconmapper?display_name=tag&include_prereleases&style=for-the-badge&color=green)](https://github.com/YanneckReiss/KConMapper/packages/1759983)
+[![License Apache 2.0](https://img.shields.io/github/license/yanneckreiss/kconmapper.svg?style=for-the-badge&color=orange)](https://opensource.org/licenses/Apache-2.0)
+[![kotlin](https://img.shields.io/github/languages/top/yanneckreiss/kconmapper?style=for-the-badge&color=blueviolet)](https://kotlinlang.org/)
 
 <p align="center"> 
    <img height="200" src="https://user-images.githubusercontent.com/100080106/208970921-5bc67978-a04e-40a0-8fb9-cafaa2b1334e.png"/> 
