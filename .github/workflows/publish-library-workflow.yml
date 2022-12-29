@@ -22,4 +22,4 @@ jobs:
           arguments: publish
         env:
           GITHUB_ACTOR: ${{ secrets.GITHUB_ACTOR }}
-          PUBLISH_TOKEN: ${{ secrets.PUBLISH_TOKEN }}
+          PUBLISH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
