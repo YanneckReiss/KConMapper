@@ -167,7 +167,11 @@ Add the **KConMapper** plugin dependency:
 <details open>
   <summary>groovy - build.gradle(:module-name)</summary>
 
-```gradle
+```groovy
+repositories {
+    maven { url = 'https://jitpack.io' }    
+}
+
 dependencies {
     // ..
     implementation 'com.github.yanneckreiss:kconmapper:1.0.0-alpha02'
@@ -179,6 +183,10 @@ dependencies {
   <summary>kotlin - build.gradle.kts(:module-name)</summary>  
 
 ```kt
+repositories {
+    maven { url = uri("https://jitpack.io") }    
+}
+
 dependencies {
  // ..
  implementation("com.github.yanneckreiss:kconmapper:1.0.0-alpha02")
