@@ -175,6 +175,7 @@ repositories {
 dependencies {
     // ..
     implementation 'com.github.yanneckreiss:kconmapper:1.0.0-alpha02'
+    ksp 'com.github.yanneckreiss:kconmapper:1.0.0-alpha02'
 }
 ```
 </details>
@@ -190,6 +191,7 @@ repositories {
 dependencies {
  // ..
  implementation("com.github.yanneckreiss:kconmapper:1.0.0-alpha02")
+ ksp("com.github.yanneckreiss:kconmapper:1.0.0-alpha02")
 }
 ```
 </details>
