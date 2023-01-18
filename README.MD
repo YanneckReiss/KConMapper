@@ -72,7 +72,7 @@ To create mapping functions, you simply need to add the `@KConMapper` annotation
 import java.time.ZonedDateTime
 import java.util.*
 
-@KConMapper([CreateExampleDTO::class, UpdateExampleDTO::class])
+@KConMapper(fromClasses = [CreateExampleDTO::class, UpdateExampleDTO::class])
 data class ExampleEntity(
     val uid: UUID = UUID.randomUUID(),
     val name: String,
@@ -106,7 +106,7 @@ variables in the origin class should be mapped to which variables in the target 
 For example:
 
 ```kotlin
-@KConMapper([CreateExampleDTO::class])
+@KConMapper(fromClasses = [CreateExampleDTO::class])
 data class ExampleEntity(val name: String, val age: Int)
 
 data class CreateExampleDTO(val fullName: String, val yearsOld: Int)
@@ -117,7 +117,7 @@ To map the `fullName` variable to the `name` variable in the `ExampleEntity` cla
 we would use the `@KConMapperProperty` annotation like this:
 
 ```kotlin
-@KConMapper([CreateExampleDTO::class])
+@KConMapper(fromClasses = [CreateExampleDTO::class])
 data class ExampleEntity(val name: String, val age: Int)
 
 data class CreateExampleDTO(
