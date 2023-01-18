@@ -15,6 +15,7 @@ private fun OutputStream.appendText(str: String) {
 }
 
 private const val KCONMAPPER_FROM_CLASSES_ANNOTATION_ARG_NAME = "fromClasses"
+private const val KCONMAPPER_TARGET_CLASSES_ANNOTATION_ARG_NAME = "targetClasses"
 private const val KCONMAPPER_ANNOTATION_NAME = "KConMapper"
 private const val KCONMAPPER_PROPERTY_ANNOTATION_NAME = "KConMapperProperty"
 private const val GENERATED_CLASS_SUFFIX = "KConMapperExtensions"
@@ -287,15 +288,14 @@ class KCMVisitor(
             // Search for any matching fields, also considers fields of supertype
             (originClass.declaration as KSClassDeclaration).getAllProperties().forEach { parameterFromOriginClass: KSPropertyDeclaration ->
                 val parameterNameFromOriginClass: String = parameterFromOriginClass.simpleName.asString()
-                val alias: String? = parameterFromOriginClass.annotations
+                val aliases: ArrayList<String>? = parameterFromOriginClass.annotations
                     .firstOrNull { ksAnnotation -> ksAnnotation.shortName.asString() == KCONMAPPER_PROPERTY_ANNOTATION_NAME }
                     ?.arguments
                     ?.firstOrNull()
-                    ?.value
-                    ?.toString()
+                    ?.value as? ArrayList<String>
 
                 // The argument matches if either the actual name or the alias from the KConMapperProperty annotation is the same
-                if ((parameterNameFromOriginClass == valueName) || (alias != null && alias == valueName)) {
+                if ((parameterNameFromOriginClass == valueName) || (aliases?.any { alias -> alias == valueName } == true)) {
                     val parameterTypeFromTargetClass: KSType = valueParam.type.resolve()
                     val parameterTypeFromOriginClass: KSType = parameterFromOriginClass.type.resolve()
                     val referencedTargetClassGenericTypeParameter: KSTypeParameter? = targetClassTypeParameters.firstOrNull { targetClassTypeParam ->

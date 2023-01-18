@@ -8,10 +8,10 @@ import java.time.LocalDateTime
 @KConMapper(fromClasses = [AnimalCareStation::class])
 class DogCareStation(
 
-    @KConMapperProperty(alternativePropertyName = "animalOne")
+    @KConMapperProperty(propertyNames = ["animalOne"])
     val dogOne: Dog,
 
-    @KConMapperProperty(alternativePropertyName = "animalTwo")
+    @KConMapperProperty(propertyNames = ["animalTwo"])
     val dogTwo: Dog,
 
     val timestamp: LocalDateTime
