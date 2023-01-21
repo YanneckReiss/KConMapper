@@ -112,9 +112,9 @@ class MappingFunctionGenerator(
                     extensionFunctions += separator
 
                 }
-                extensionFunctions += "$DIAMOND_OPERATOR_CLOSE ${generateExtensionFunctionName(sourceClassName, targetClassName)}(\n"
+                extensionFunctions += "$DIAMOND_OPERATOR_CLOSE ${generateExtensionFunctionName(sourceClass, targetClass, packageImports)}(\n"
             } else {
-                extensionFunctions += "$KOTLIN_FUNCTION_KEYWORD ${generateExtensionFunctionName(sourceClassName, targetClassName)}(\n"
+                extensionFunctions += "$KOTLIN_FUNCTION_KEYWORD ${generateExtensionFunctionName(sourceClass, targetClass, packageImports)}(\n"
             }
 
             missingConstructorArguments.forEachIndexed { missingArgumentIndex: Int, missingArgument: KSValueParameter ->
@@ -137,9 +137,21 @@ class MappingFunctionGenerator(
                     val lineEnding: String = getArgumentDeclarationLineEnding(hasNextLine = targetClassTypeParameters.lastIndex != index, addSpace = true)
                     extensionFunctions += targetClassTypeParameter.name.asString() + lineEnding
                 }
-                extensionFunctions += "$DIAMOND_OPERATOR_CLOSE ${generateExtensionFunctionName(sourceClassName, targetClassName)}$OPEN_FUNCTION$CLOSE_FUNCTION = $targetClassName$OPEN_FUNCTION\n"
+                extensionFunctions += "$DIAMOND_OPERATOR_CLOSE ${
+                    generateExtensionFunctionName(
+                        sourceClass = sourceClass,
+                        targetClass = targetClass,
+                        packageImports = packageImports
+                    )
+                }$OPEN_FUNCTION$CLOSE_FUNCTION = $targetClassName$OPEN_FUNCTION\n"
             } else {
-                extensionFunctions += "$KOTLIN_FUNCTION_KEYWORD ${generateExtensionFunctionName(sourceClassName, targetClassName)}$OPEN_FUNCTION$CLOSE_FUNCTION = $targetClassName$OPEN_FUNCTION\n"
+                extensionFunctions += "$KOTLIN_FUNCTION_KEYWORD ${
+                    generateExtensionFunctionName(
+                        sourceClass = sourceClass,
+                        targetClass = targetClass,
+                        packageImports = packageImports
+                    )
+                }$OPEN_FUNCTION$CLOSE_FUNCTION = $targetClassName$OPEN_FUNCTION\n"
             }
         }
 
@@ -404,7 +416,27 @@ class MappingFunctionGenerator(
         }
     }
 
-    private fun generateExtensionFunctionName(sourceClassName: String, targetClassName: String) = "$sourceClassName.to$targetClassName"
+    private fun generateExtensionFunctionName(
+        sourceClass: KSDeclaration,
+        targetClass: KSDeclaration,
+        packageImports: PackageImports
+    ): String {
+
+        val sourceClassName: String = sourceClass.getName()
+        val targetClassName: String = targetClass.getName()
+
+        val sourceClassType: String = sourceClass.typeParameters.firstOrNull()?.let { ksTypeParameter: KSTypeParameter ->
+
+            val upperBound = ksTypeParameter.bounds.firstOrNull()?.resolve()?.let { upperBoundType ->
+                packageImports.addImport(upperBoundType)
+                return@let upperBoundType.getName()
+            } ?: ""
+
+            DIAMOND_OPERATOR_OPEN + upperBound + DIAMOND_OPERATOR_CLOSE
+        } ?: ""
+
+        return "$sourceClassName$sourceClassType.to$targetClassName"
+    }
 
     private fun getArgumentDeclarationLineEnding(hasNextLine: Boolean, addSpace: Boolean = false): String = if (hasNextLine) "," + if (addSpace) " " else "" else ""
 

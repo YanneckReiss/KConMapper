@@ -42,7 +42,6 @@ class KCMVisitor(
         classDeclaration.primaryConstructor!!.accept(this, data)
     }
 
-
     override fun visitFunctionDeclaration(function: KSFunctionDeclaration, data: Unit) {
 
         val annotatedClass: KSClassDeclaration = function.parentDeclaration as KSClassDeclaration
