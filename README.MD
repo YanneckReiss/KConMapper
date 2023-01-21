@@ -96,6 +96,31 @@ With these mapping functions, we can implement the following:
     val exampleEntity: ExampleEntity = updateExampleDTO.toExampleEntity()
 ```
 
+If we want to generate mapping functions from the annotated class to another target class, we can supply the `toClasses` argument:
+
+```kt
+import java.time.ZonedDateTime
+import java.util.*
+
+@KConMapper(toClasses = [CreateExampleDTO::class, UpdateExampleDTO::class])
+data class ExampleEntity(
+    val uid: UUID = UUID.randomUUID(),
+    val name: String,
+    val timestamp: ZonedDateTime
+)
+```
+
+The code snippet from above would generate the following:
+```kt
+    val exampleEntity: ExampleEntity = ExampleEntity()
+    
+    // For the create case:
+    val createExampleDTO: CreateExampleDTO = exampleEntity.toCreateExampleDTO()
+    
+    // And for the update case:
+    val updateExampleDTO: UpdateExampleDTO = exampleEntity.toUpdateExampleDTO()
+```
+
 ## Property name overriding
 
 The **KConMapper** mapping function works by matching the names of the variables in the source class 

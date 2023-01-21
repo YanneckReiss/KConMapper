@@ -19,8 +19,8 @@ class AnimalArrival {
 
         val now: LocalDateTime = LocalDateTime.now()
 
-        val animalCareStationFromCats: AnimalCareStation<Animal> = CatCareStation(cat1, cat2, now).toAnimalCareStation() // Generated extension
-        val animalCareStationFromDogs: AnimalCareStation<Animal> = DogCareStation(dog1, dog2, now).toAnimalCareStation() // Generated extension
+        val animalCareStationFromCats: AnimalCareStation<Animal> = CatCareStation(cat1, cat2, now).toAnimalCareStation<Animal>() // Generated extension
+        val animalCareStationFromDogs: AnimalCareStation<Animal> = DogCareStation(dog1, dog2, now).toAnimalCareStation<Animal>() // Generated extension
 
         println(animalCareStationFromCats.toString())
         println(animalCareStationFromDogs.toString())
