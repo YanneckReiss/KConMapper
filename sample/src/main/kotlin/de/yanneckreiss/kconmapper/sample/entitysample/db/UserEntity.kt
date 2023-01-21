@@ -6,7 +6,7 @@ import de.yanneckreiss.kconmapper.sample.entitysample.dto.UpdateUserDTO
 import de.yanneckreiss.kconmapper.sample.entitysample.model.Address
 import java.util.*
 
-@KConMapper(fromClasses = [CreateUserDTO::class, UpdateUserDTO::class], targetClasses = [CreateUserDTO::class, UpdateUserDTO::class])
+@KConMapper(fromClasses = [CreateUserDTO::class, UpdateUserDTO::class], toClasses = [CreateUserDTO::class, UpdateUserDTO::class])
 data class UserEntity(
     val uid: UUID = UUID.randomUUID(),
     val name: String,

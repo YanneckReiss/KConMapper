@@ -14,7 +14,7 @@ private fun OutputStream.appendText(str: String) {
 }
 
 private const val KCONMAPPER_FROM_CLASSES_ANNOTATION_ARG_NAME = "fromClasses"
-private const val KCONMAPPER_TARGET_CLASSES_ANNOTATION_ARG_NAME = "targetClasses"
+private const val KCONMAPPER_TARGET_CLASSES_ANNOTATION_ARG_NAME = "toClasses"
 private const val GENERATED_CLASS_SUFFIX = "KConMapperExtensions"
 private const val SUPPRESS_UNCHECKED_CAST_STATEMENT = "@file:Suppress(\"UNCHECKED_CAST\")\n\n"
 private const val PACKAGE_STATEMENT = "package"
