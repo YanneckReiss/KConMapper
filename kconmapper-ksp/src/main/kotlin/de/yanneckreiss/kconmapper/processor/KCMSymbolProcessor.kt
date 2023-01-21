@@ -12,7 +12,7 @@ import de.yanneckreiss.kconmapper.processor.visitor.KCMVisitor
 
 private const val KCONMAPPER_PACKAGE_NAME = "com.github.yanneckreiss.kconmapper"
 private const val KCONMAPPER_ANNOTATIONS_PACKAGE_NAME = "annotations"
-private const val KCONMAPPER_ANNOTATION_NAME = "KConMapper"
+const val KCONMAPPER_ANNOTATION_NAME = "KConMapper"
 
 /**
  * Responsible for finding the KConMapper annotations

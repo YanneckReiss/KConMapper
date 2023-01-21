@@ -1,4 +1,4 @@
-package de.yanneckreiss.kconmapper.processor.visitor.argument
+package de.yanneckreiss.kconmapper.processor.generator.argument
 
 import com.google.devtools.ksp.symbol.KSType
 

@@ -66,7 +66,7 @@ data class UpdateExampleDTO(
 To create mapping functions, you simply need to add the `@KConMapper` annotation above the target class.
 
 - The **target class**, `ExampleEntity`, is the class whose constructor serves as the schema for the mapping function.
-- The **origin classes**, `CreateExampleDTO` and `UpdateExampleDTO`, are the classes whose parameters we want to map to the constructor schema of the target class.
+- The **source classes**, `CreateExampleDTO` and `UpdateExampleDTO`, are the classes whose parameters we want to map to the constructor schema of the target class.
 
 ```kt
 import java.time.ZonedDateTime
@@ -82,7 +82,7 @@ data class ExampleEntity(
 
 By executing the `kspKotlin` task, the respective mapping functions get automatically generated as extension functions
 of the
-origin classes.
+source classes.
 
 With these mapping functions, we can implement the following:
 
@@ -98,10 +98,10 @@ With these mapping functions, we can implement the following:
 
 ## Property name overriding
 
-The **KConMapper** mapping function works by matching the names of the variables in the origin class 
-to the ones in the target class. If the names of the variables in the origin class do not match 
+The **KConMapper** mapping function works by matching the names of the variables in the source class 
+to the ones in the target class. If the names of the variables in the source class do not match 
 the names in the target class, you can use the `@KConMapperProperty` annotation to specify which 
-variables in the origin class should be mapped to which variables in the target class.
+variables in the source class should be mapped to which variables in the target class.
 
 For example:
 

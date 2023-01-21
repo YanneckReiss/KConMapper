@@ -7,7 +7,7 @@ import de.yanneckreiss.kconmapper.processor.getName
 
 private const val IMPORT_STATEMENT = "import"
 
-class PackageImports(private val targetClassTypeParameters: List<KSTypeParameter>) {
+class PackageImports(var targetClassTypeParameters: Set<KSTypeParameter> = mutableSetOf()) {
 
     private val imports = mutableSetOf<Pair<String, String>>()
 

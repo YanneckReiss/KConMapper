@@ -1,7 +1,10 @@
 package com.github.yanneckreiss.kconmapper.annotations
 
 /**
- * Can be used if you want to assign a property from the origin class to a property
- * of the target class that has a different name than the property of the origin class.
+ * Can be assigned to a property of the sourceClass
+ * if you want to provide an alias for the variable name.
+ *
+ * Useful if the target class has a different name than the
+ * property of the sourceClass class but describes the same property.
  */
-annotation class KConMapperProperty(val propertyNames: Array<String>)
+annotation class KConMapperProperty(val aliases: Array<String>)
