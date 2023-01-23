@@ -66,13 +66,13 @@ data class UpdateExampleDTO(
 To create mapping functions, you simply need to add the `@KConMapper` annotation above the target class.
 
 - The **target class**, `ExampleEntity`, is the class whose constructor serves as the schema for the mapping function.
-- The **origin classes**, `CreateExampleDTO` and `UpdateExampleDTO`, are the classes whose parameters we want to map to the constructor schema of the target class.
+- The **source classes**, `CreateExampleDTO` and `UpdateExampleDTO`, are the classes whose parameters we want to map to the constructor schema of the target class.
 
 ```kt
 import java.time.ZonedDateTime
 import java.util.*
 
-@KConMapper([CreateExampleDTO::class, UpdateExampleDTO::class])
+@KConMapper(fromClasses = [CreateExampleDTO::class, UpdateExampleDTO::class])
 data class ExampleEntity(
     val uid: UUID = UUID.randomUUID(),
     val name: String,
@@ -82,7 +82,7 @@ data class ExampleEntity(
 
 By executing the `kspKotlin` task, the respective mapping functions get automatically generated as extension functions
 of the
-origin classes.
+source classes.
 
 With these mapping functions, we can implement the following:
 
@@ -96,17 +96,42 @@ With these mapping functions, we can implement the following:
     val exampleEntity: ExampleEntity = updateExampleDTO.toExampleEntity()
 ```
 
+If we want to generate mapping functions from the annotated class to another target class, we can supply the `toClasses` argument:
+
+```kt
+import java.time.ZonedDateTime
+import java.util.*
+
+@KConMapper(toClasses = [CreateExampleDTO::class, UpdateExampleDTO::class])
+data class ExampleEntity(
+    val uid: UUID = UUID.randomUUID(),
+    val name: String,
+    val timestamp: ZonedDateTime
+)
+```
+
+The code snippet from above would generate the following:
+```kt
+    val exampleEntity: ExampleEntity = ExampleEntity()
+    
+    // For the create case:
+    val createExampleDTO: CreateExampleDTO = exampleEntity.toCreateExampleDTO()
+    
+    // And for the update case:
+    val updateExampleDTO: UpdateExampleDTO = exampleEntity.toUpdateExampleDTO()
+```
+
 ## Property name overriding
 
-The **KConMapper** mapping function works by matching the names of the variables in the origin class 
-to the ones in the target class. If the names of the variables in the origin class do not match 
+The **KConMapper** mapping function works by matching the names of the variables in the source class 
+to the ones in the target class. If the names of the variables in the source class do not match 
 the names in the target class, you can use the `@KConMapperProperty` annotation to specify which 
-variables in the origin class should be mapped to which variables in the target class.
+variables in the source class should be mapped to which variables in the target class.
 
 For example:
 
 ```kotlin
-@KConMapper([CreateExampleDTO::class])
+@KConMapper(fromClasses = [CreateExampleDTO::class])
 data class ExampleEntity(val name: String, val age: Int)
 
 data class CreateExampleDTO(val fullName: String, val yearsOld: Int)
@@ -117,7 +142,7 @@ To map the `fullName` variable to the `name` variable in the `ExampleEntity` cla
 we would use the `@KConMapperProperty` annotation like this:
 
 ```kotlin
-@KConMapper([CreateExampleDTO::class])
+@KConMapper(fromClasses = [CreateExampleDTO::class])
 data class ExampleEntity(val name: String, val age: Int)
 
 data class CreateExampleDTO(
@@ -137,7 +162,7 @@ The following section describes the required setup to use the **KConMapper** KSP
 
 > Lookup the matching KSP version from the [official GitHub release page]("https://github.com/google/ksp/releases") 
 of the KSP repository.
-As an example: If you're using Kotlin version `1.7.21`, the latest KSP would be `1.7.21-1.0.8`.
+As an example: If you're using Kotlin version `1.8.0`, the latest KSP would be `1.8.0-1.0.8`.
 
 <details open>
   <summary>groovy - build.gradle(:module-name)</summary>
@@ -145,7 +170,7 @@ As an example: If you're using Kotlin version `1.7.21`, the latest KSP would be 
 ```groovy
 plugins {
     // Depends on your project's Kotlin version
-    id 'com.google.devtools.ksp' version '1.7.21-1.0.8'
+    id 'com.google.devtools.ksp' version '1.8.0-1.0.8'
 }
 ```
 </details>
@@ -156,7 +181,7 @@ plugins {
 ```kt
 plugins {
     // Depends on your project's Kotlin version
-    id("com.google.devtools.ksp") version "1.7.21-1.0.8"
+    id("com.google.devtools.ksp") version "1.8.0-1.0.8"
 }
 ```
 </details>
@@ -174,8 +199,8 @@ repositories {
 
 dependencies {
     // ..
-    implementation 'com.github.yanneckreiss:kconmapper:1.0.0-alpha02'
-    ksp 'com.github.yanneckreiss:kconmapper:1.0.0-alpha02'
+    implementation 'com.github.yanneckreiss:kconmapper:annotations:1.0.0-alpha03'
+    ksp 'com.github.yanneckreiss:kconmapper:ksp:1.0.0-alpha03'
 }
 ```
 </details>
@@ -190,8 +215,8 @@ repositories {
 
 dependencies {
  // ..
- implementation("com.github.yanneckreiss:kconmapper:1.0.0-alpha02")
- ksp("com.github.yanneckreiss:kconmapper:1.0.0-alpha02")
+ implementation("com.github.yanneckreiss:kconmapper:annotations:1.0.0-alpha03")
+ ksp("com.github.yanneckreiss:kconmapper:ksp:1.0.0-alpha03")
 }
 ```
 </details>
