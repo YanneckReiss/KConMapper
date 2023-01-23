@@ -41,14 +41,14 @@ subprojects {
 
             publications {
                 register<MavenPublication>("gpr") {
-                    groupId = "com.github.yanneckreiss"
-                    artifactId = "kconmapper"
-                    version = "1.0.0-alpha02"
+                    groupId = "com.github.yanneckreiss.kconmapper"
+                    artifactId = project.name
+                    version = "1.0.0-alpha03"
 
                     from(components["java"])
 
                     pom {
-                        name.set("KConMapper")
+                        name.set("KConMapper - ${project.name}")
                         description.set("A KSP plugin for generating constructor mapping extension functions.")
                         licenses {
                             license {

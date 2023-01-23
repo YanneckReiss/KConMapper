@@ -199,8 +199,8 @@ repositories {
 
 dependencies {
     // ..
-    implementation 'com.github.yanneckreiss:kconmapper:annotations:1.0.0-alpha03'
-    ksp 'com.github.yanneckreiss:kconmapper:ksp:1.0.0-alpha03'
+    implementation 'com.github.yanneckreiss:kconmapper:kconmapper-annotations:1.0.0-alpha03'
+    ksp 'com.github.yanneckreiss:kconmapper:kconmapper-ksp:1.0.0-alpha03'
 }
 ```
 </details>
@@ -210,13 +210,13 @@ dependencies {
 
 ```kt
 repositories {
-    maven { url = uri("https://jitpack.io") }    
+    maven { url = uri("https://jitpack.io") }
 }
 
 dependencies {
- // ..
- implementation("com.github.yanneckreiss:kconmapper:annotations:1.0.0-alpha03")
- ksp("com.github.yanneckreiss:kconmapper:ksp:1.0.0-alpha03")
+    // ..
+    implementation("com.github.yanneckreiss:kconmapper:kconmapper-annotations:1.0.0-alpha03")
+    ksp("com.github.yanneckreiss:kconmapper:kconmapper-ksp:1.0.0-alpha03")
 }
 ```
 </details>
