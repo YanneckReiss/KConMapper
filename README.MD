@@ -1,4 +1,4 @@
-[![Version](https://img.shields.io/github/v/release/yanneckreiss/kconmapper?display_name=tag&include_prereleases&style=for-the-badge&color=green)](https://github.com/YanneckReiss/KConMapper/packages/1759983)
+[![Version](https://img.shields.io/github/v/release/yanneckreiss/kconmapper?include_prereleases&style=for-the-badge&color=green)](https://github.com/YanneckReiss/KConMapper/releases)
 [![License Apache 2.0](https://img.shields.io/github/license/yanneckreiss/kconmapper.svg?style=for-the-badge&color=orange)](https://opensource.org/licenses/Apache-2.0)
 [![kotlin](https://img.shields.io/github/languages/top/yanneckreiss/kconmapper?style=for-the-badge&color=blueviolet)](https://kotlinlang.org/)
 
