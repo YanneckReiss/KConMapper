@@ -12,12 +12,6 @@ allprojects {
 
 plugins {
     kotlin("jvm")
-    `maven-publish`
-}
-
-repositories {
-    google()
-    mavenCentral()
 }
 
 subprojects {
@@ -27,43 +21,18 @@ subprojects {
     if (!project.name.contains("sample", ignoreCase = true)) {
         apply(plugin = "maven-publish")
 
-        publishing {
-            repositories {
-                maven {
-                    name = "GitHubPackages"
-                    url = uri("https://maven.pkg.github.com/yanneckreiss/KConMapper")
-                    credentials {
-                        username = System.getenv("GITHUB_ACTOR")
-                        password = System.getenv("GITHUB_TOKEN")
-                    }
-                }
-            }
-
+        configure<PublishingExtension> {
             publications {
-                register<MavenPublication>("gpr") {
-                    groupId = "com.github.yanneckreiss.kconmapper"
-                    artifactId = project.name
-                    version = "1.0.0-alpha03"
+                register<MavenPublication>("maven") {
+                    groupId = project.group.toString()
+                    artifactId = when {
+                        project.name.contains("ksp") -> "ksp"
+                        project.name.contains("annotations") -> "annotations"
+                        else -> project.name
+                    }
+                    version = project.version.toString()
 
                     from(components["java"])
-
-                    pom {
-                        name.set("KConMapper - ${project.name}")
-                        description.set("A KSP plugin for generating constructor mapping extension functions.")
-                        licenses {
-                            license {
-                                name.set("The Apache License, Version 2.0")
-                                url.set("https://www.apache.org/licenses/LICENSE-2.0.txt")
-                            }
-                        }
-                        developers {
-                            developer {
-                                id.set("yanneckreiss")
-                                name.set("Yanneck Reiß")
-                                email.set("support@kaspic.de")
-                            }
-                        }
-                    }
                 }
             }
         }
