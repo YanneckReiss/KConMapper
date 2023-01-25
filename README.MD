@@ -229,10 +229,8 @@ To be able to access the generated classes in your project, you need to add them
 
 ```kt
 android {
-    kotlin.sourceSets.all {
-        android.applicationVariants.all { variant ->
-            kotlin.srcDir("build/generated/ksp/${variant.name}/kotlin")
-        }
+    sourceSets.configureEach {
+        kotlin.srcDir("$buildDir/generated/ksp/$name/kotlin/")
     }
 }
  ```
@@ -245,7 +243,7 @@ android {
 ```kt
 kotlin.sourceSets {
     getByName(name) {
-        kotlin.srcDir("build/generated/ksp/$name/kotlin")
+        kotlin.srcDir("$buildDir/generated/ksp/$name/kotlin")
     }
 }
  ```
