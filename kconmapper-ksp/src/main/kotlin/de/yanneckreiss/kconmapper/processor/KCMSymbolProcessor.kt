@@ -24,10 +24,9 @@ class KCMSymbolProcessor(
 
     override fun process(resolver: Resolver): List<KSAnnotated> {
         val annotationPackagePath = "$KCONMAPPER_PACKAGE_NAME.$KCONMAPPER_ANNOTATIONS_PACKAGE_NAME.$KCONMAPPER_ANNOTATION_NAME"
-        val symbols: Sequence<KSAnnotated> = resolver.getSymbolsWithAnnotation(annotationName = annotationPackagePath)
-        val ret: List<KSAnnotated> = symbols.filter { ksAnnotated -> !ksAnnotated.validate() }.toList()
+        val resolvedSymbols: Sequence<KSAnnotated> = resolver.getSymbolsWithAnnotation(annotationName = annotationPackagePath)
 
-        symbols
+        resolvedSymbols
             .filter { ksAnnotated -> ksAnnotated is KSClassDeclaration && ksAnnotated.validate() }
             .forEach { ksAnnotated: KSAnnotated ->
                 val classDeclaration: KSClassDeclaration = (ksAnnotated as KSClassDeclaration)
@@ -51,6 +50,6 @@ class KCMSymbolProcessor(
                 }
             }
 
-        return ret
+        return emptyList()
     }
 }

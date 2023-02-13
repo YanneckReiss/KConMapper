@@ -26,7 +26,7 @@ class MappingFunctionGenerator(
      *
      * @param targetClass The class we want to map to.
      *        It defines the schema which the `sourceClass` properties should be mapped to.
-     *        Therefore is also the return type of the mapper extension function.
+     *        Therefore, it is also the return type of the mapper extension function.
      *
      * @param sourceClass The class which is the source for properties we want to map to the constructor of the
      *        target class. It is therefore at the same time the class for which we generate the extension function.
@@ -37,16 +37,16 @@ class MappingFunctionGenerator(
         packageImports: PackageImports
     ): String {
 
-        val targetClassName = targetClass.simpleName.getShortName()
-        val packageName = targetClass.containingFile!!.packageName.asString()
+        val targetClassName: String = targetClass.simpleName.getShortName()
+        val packageName: String = targetClass.packageName.asString()
         val targetClassTypeParameters: List<KSTypeParameter> = targetClass.typeParameters
 
         packageImports.targetClassTypeParameters += targetClassTypeParameters
 
-        // Add import for the target class = class we want to map to via extension functions
+        // Add import for the target class
         packageImports.addImport(packageName, targetClassName)
 
-        // Add import for source classe
+        // Add import for source class
         packageImports.addImport(sourceClass.packageName.asString(), sourceClass.simpleName.asString())
 
         // Create mapping extension function for source class to target class
@@ -259,11 +259,13 @@ class MappingFunctionGenerator(
             // Search for any matching fields, also considers fields of supertype
             sourceClass.getAllProperties().forEach { parameterFromSourceClass: KSPropertyDeclaration ->
                 val parameterNameFromSourceClass: String = parameterFromSourceClass.simpleName.asString()
-                val aliases: ArrayList<String>? = parameterFromSourceClass.annotations
+
+                // Get the aliases from the KConMapperProperty annotation, can in reality only be of type ArrayList<String>?
+                val aliases: ArrayList<*>? = parameterFromSourceClass.annotations
                     .firstOrNull { ksAnnotation -> ksAnnotation.shortName.asString() == KCONMAPPER_PROPERTY_ANNOTATION_NAME }
                     ?.arguments
                     ?.firstOrNull()
-                    ?.value as? ArrayList<String>
+                    ?.value as ArrayList<*>?
 
                 // The argument matches if either the actual name or the alias from the KConMapperProperty annotation is the same
                 if ((parameterNameFromSourceClass == valueName) || (aliases?.any { alias -> alias == valueName } == true)) {
@@ -425,11 +427,11 @@ class MappingFunctionGenerator(
         val sourceClassName: String = sourceClass.getName()
         val targetClassName: String = targetClass.getName()
 
-        val sourceClassType: String = sourceClass.typeParameters.firstOrNull()?.let { ksTypeParameter: KSTypeParameter ->
+        val sourceClassType: String = sourceClass.typeParameters.firstOrNull()?.let KsTypeParameterLet@ { ksTypeParameter: KSTypeParameter ->
 
-            val upperBound = ksTypeParameter.bounds.firstOrNull()?.resolve()?.let { upperBoundType ->
+            val upperBound = ksTypeParameter.bounds.firstOrNull()?.resolve()?.let UpperBoundLet@{ upperBoundType ->
                 packageImports.addImport(upperBoundType)
-                return@let upperBoundType.getName()
+                return@UpperBoundLet upperBoundType.getName()
             } ?: ""
 
             DIAMOND_OPERATOR_OPEN + upperBound + DIAMOND_OPERATOR_CLOSE
