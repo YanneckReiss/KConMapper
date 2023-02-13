@@ -39,12 +39,7 @@ class KCMVisitor(
 ) : KSVisitorVoid() {
 
     override fun visitClassDeclaration(classDeclaration: KSClassDeclaration, data: Unit) {
-        classDeclaration.primaryConstructor!!.accept(this, data)
-    }
-
-    override fun visitFunctionDeclaration(function: KSFunctionDeclaration, data: Unit) {
-
-        val annotatedClass: KSClassDeclaration = function.parentDeclaration as KSClassDeclaration
+        val annotatedClass: KSClassDeclaration = classDeclaration
         val kcmAnnotation: KSAnnotation = extractKCMAnnotation(annotatedClass)
         val mapFromClasses: List<KSClassDeclaration> = extractArgumentClasses(kcmAnnotation, KCONMAPPER_FROM_CLASSES_ANNOTATION_ARG_NAME)
         val mapToClasses: List<KSClassDeclaration> = extractArgumentClasses(kcmAnnotation, KCONMAPPER_TARGET_CLASSES_ANNOTATION_ARG_NAME)
@@ -84,11 +79,15 @@ class KCMVisitor(
         }
 
         generateCode(
-            containingFile = function.containingFile!!,
+            containingFile = classDeclaration.containingFile!!,
             targetClassName = annotatedClass.simpleName.getShortName(),
             packageImports = packageImports,
             extensionFunctions = extensionFunctions
         )
+    }
+
+    override fun visitAnnotation(annotation: KSAnnotation, data: Unit) {
+        annotation.annotationType.resolve().declaration.accept(this, data)
     }
 
     private fun generateCode(

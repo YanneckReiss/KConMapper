@@ -1,7 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 allprojects {
-    version = "1.0.0-alpha03"
+    version = "1.0.0-alpha04"
     group = "com.github.yanneckreiss.kconmapper"
 
     repositories {
