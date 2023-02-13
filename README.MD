@@ -199,8 +199,8 @@ repositories {
 
 dependencies {
     // ..
-    implementation 'com.github.yanneckreiss.kconmapper:annotations:1.0.0-alpha03'
-    ksp 'com.github.yanneckreiss.kconmapper:ksp:1.0.0-alpha03'
+    implementation 'com.github.yanneckreiss.kconmapper:annotations:1.0.0-alpha04'
+    ksp 'com.github.yanneckreiss.kconmapper:ksp:1.0.0-alpha04'
 }
 ```
 </details>
@@ -215,8 +215,8 @@ repositories {
 
 dependencies {
  // ..
- implementation("com.github.yanneckreiss.kconmapper:annotations:1.0.0-alpha03")
- ksp("com.github.yanneckreiss.kconmapper:ksp:1.0.0-alpha03")
+ implementation("com.github.yanneckreiss.kconmapper:annotations:1.0.0-alpha04")
+ ksp("com.github.yanneckreiss.kconmapper:ksp:1.0.0-alpha04")
 }
 ```
 </details>
