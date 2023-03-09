@@ -15,5 +15,6 @@ pluginManagement {
 
 rootProject.name = "KConMapper"
 include(":sample")
+include(":sample-multi-module")
 include(":kconmapper-annotations")
 include(":kconmapper-ksp")

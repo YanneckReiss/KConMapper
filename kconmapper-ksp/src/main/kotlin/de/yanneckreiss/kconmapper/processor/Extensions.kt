@@ -1,10 +1,7 @@
 package de.yanneckreiss.kconmapper.processor
 
 import com.google.devtools.ksp.processing.KSPLogger
-import com.google.devtools.ksp.symbol.KSClassDeclaration
-import com.google.devtools.ksp.symbol.KSDeclaration
-import com.google.devtools.ksp.symbol.KSNode
-import com.google.devtools.ksp.symbol.KSType
+import com.google.devtools.ksp.symbol.*
 
 private const val NULLABLE_MARK = "?"
 

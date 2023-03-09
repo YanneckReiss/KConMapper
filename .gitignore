@@ -1,7 +1,6 @@
 # Project exclude paths
-/.gradle/
 *.idea
-/kconmapper-plugin/build/*
-/kconmapper-sample/.gradle/
-/kconmapper-sample/build/*
-/build/
+build/
+.gradle
+.idea
+.DS_Store
