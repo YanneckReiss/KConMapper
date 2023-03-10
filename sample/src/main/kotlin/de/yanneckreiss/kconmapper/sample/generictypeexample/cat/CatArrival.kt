@@ -3,12 +3,10 @@ package de.yanneckreiss.kconmapper.sample.generictypeexample.cat
 import de.yanneckreiss.kconmapper.generated.toAnimalCareStation
 import de.yanneckreiss.kconmapper.generated.toCatCareStation
 import de.yanneckreiss.kconmapper.generated.toDogCareStation
+import de.yanneckreiss.kconmapper.sample.generictypeexample.Animal
 import de.yanneckreiss.kconmapper.sample.generictypeexample.AnimalCareStation
-import de.yanneckreiss.kconmapper.sample.generictypeexample.cat.BritishShorthair
-import de.yanneckreiss.kconmapper.sample.generictypeexample.cat.CatCareStation
 import de.yanneckreiss.kconmapper.sample.generictypeexample.dog.DogCareStation
 import de.yanneckreiss.kconmapper.sample.generictypeexample.dog.ShibaInu
-import de.yanneckreiss.kconmapper.sample_multi_module.generictypeexample.Animal
 import java.time.LocalDateTime
 
 class CatArrival {
