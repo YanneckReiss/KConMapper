@@ -9,6 +9,8 @@ import kotlin.reflect.KClass
  * @param fromClasses define classes you want to map from to the annotated class.
  *        The result will be `ClassFromAnnotationParameter.toKConMapperAnnotatedClass(): KConMapperAnnotatedClass`
  */
+@Target(AnnotationTarget.CLASS)
+@Retention(AnnotationRetention.SOURCE)
 annotation class KConMapper(
     val toClasses: Array<KClass<*>> = [],
     val fromClasses: Array<KClass<*>> = []

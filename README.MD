@@ -154,6 +154,19 @@ data class CreateExampleDTO(
 With the `@KConMapperProperty` annotation in place, the `exampleMapper` function will map the fullName variable in the CreateExampleDTO class to the name variable in the ExampleEntity class and the yearsOld variable to the age variable when it is called.
 
 ---
+## Configurations
+
+You can adapt the configuration of KConMapper to your needs.
+
+To suppress outputted warnings about missing variable mappings, you can add the following to your `build.gradle` file:
+
+```kotlin
+ksp {
+    arg("kconmapper.suppressMappingMismatchWarnings", "true")
+}
+```
+
+---
 
 ## Setup
 The following section describes the required setup to use the **KConMapper** KSP plugin in your project.
@@ -199,8 +212,8 @@ repositories {
 
 dependencies {
     // ..
-    implementation 'com.github.yanneckreiss.kconmapper:annotations:1.0.0-alpha05'
-    ksp 'com.github.yanneckreiss.kconmapper:ksp:1.0.0-alpha05'
+    implementation 'com.github.yanneckreiss.kconmapper:annotations:1.0.0-alpha06'
+    ksp 'com.github.yanneckreiss.kconmapper:ksp:1.0.0-alpha06'
 }
 ```
 </details>
@@ -215,8 +228,8 @@ repositories {
 
 dependencies {
  // ..
- implementation("com.github.yanneckreiss.kconmapper:annotations:1.0.0-alpha05")
- ksp("com.github.yanneckreiss.kconmapper:ksp:1.0.0-alpha05")
+ implementation("com.github.yanneckreiss.kconmapper:annotations:1.0.0-alpha06")
+ ksp("com.github.yanneckreiss.kconmapper:ksp:1.0.0-alpha06")
 }
 ```
 </details>

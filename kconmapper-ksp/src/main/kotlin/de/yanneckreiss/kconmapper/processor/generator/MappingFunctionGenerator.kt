@@ -4,6 +4,7 @@ import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.processing.Resolver
 import com.google.devtools.ksp.symbol.*
 import de.yanneckreiss.kconmapper.processor.*
+import de.yanneckreiss.kconmapper.processor.common.KConMapperConfiguration
 import de.yanneckreiss.kconmapper.processor.generator.argument.ArgumentType
 import de.yanneckreiss.kconmapper.processor.generator.argument.MatchingArgument
 import de.yanneckreiss.kconmapper.processor.visitor.PackageImports
@@ -35,7 +36,8 @@ class MappingFunctionGenerator(
     fun generateMappingFunction(
         sourceClass: KSClassDeclaration,
         targetClass: KSClassDeclaration,
-        packageImports: PackageImports
+        packageImports: PackageImports,
+        configuration: KConMapperConfiguration
     ): String {
 
         val targetClassName: String = targetClass.simpleName.getShortName()
@@ -56,7 +58,8 @@ class MappingFunctionGenerator(
             targetClass = targetClass,
             targetClassTypeParameters = targetClassTypeParameters,
             targetClassName = targetClassName,
-            packageImports = packageImports
+            packageImports = packageImports,
+            configuration = configuration
         )
     }
 
@@ -65,7 +68,8 @@ class MappingFunctionGenerator(
         targetClass: KSClassDeclaration,
         targetClassTypeParameters: List<KSTypeParameter>,
         targetClassName: String,
-        packageImports: PackageImports
+        packageImports: PackageImports,
+        configuration: KConMapperConfiguration
     ): String {
 
         var extensionFunctions = ""
@@ -81,14 +85,15 @@ class MappingFunctionGenerator(
             targetClassTypeParameters = targetClassTypeParameters,
             packageImports = packageImports,
             sourceClassName = sourceClassName,
-            targetClassName = targetClassName
+            targetClassName = targetClassName,
+            configuration = configuration
         )
 
         // Add missing arguments to function head
         if (missingConstructorArguments.isNotEmpty()) {
 
             // Warn the user if unnecessary KConMapper got declared
-            if (matchingConstructorArguments.isEmpty()) {
+            if (matchingConstructorArguments.isEmpty() && !configuration.suppressMappingMismatchWarnings) {
                 logger.warn(
                     message = "\n\nNo matching arguments for mapping from class `$sourceClassName` to `$targetClassName`. \n" +
                             "You can instead remove the argument `$sourceClassName::class` from the `${KCONMAPPER_ANNOTATION_NAME}` annotation in class `$targetClassName` " +
@@ -101,7 +106,10 @@ class MappingFunctionGenerator(
             if (targetClassTypeParameters.isNotEmpty()) {
                 extensionFunctions += "$KOTLIN_FUNCTION_KEYWORD $DIAMOND_OPERATOR_OPEN"
                 targetClassTypeParameters.forEachIndexed { index, targetClassTypeParameter: KSTypeParameter ->
-                    val separator: String = getArgumentDeclarationLineEnding(hasNextLine = targetClassTypeParameters.lastIndex != index, addSpace = true)
+                    val separator: String = getArgumentDeclarationLineEnding(
+                        hasNextLine = targetClassTypeParameters.lastIndex != index,
+                        addSpace = true
+                    )
 
                     extensionFunctions += targetClassTypeParameter.name.asString()
                     // TODO: Handle multiple upper bounds
@@ -113,9 +121,21 @@ class MappingFunctionGenerator(
                     extensionFunctions += separator
 
                 }
-                extensionFunctions += "$DIAMOND_OPERATOR_CLOSE ${generateExtensionFunctionName(sourceClass, targetClass, packageImports)}(\n"
+                extensionFunctions += "$DIAMOND_OPERATOR_CLOSE ${
+                    generateExtensionFunctionName(
+                        sourceClass,
+                        targetClass,
+                        packageImports
+                    )
+                }(\n"
             } else {
-                extensionFunctions += "$KOTLIN_FUNCTION_KEYWORD ${generateExtensionFunctionName(sourceClass, targetClass, packageImports)}(\n"
+                extensionFunctions += "$KOTLIN_FUNCTION_KEYWORD ${
+                    generateExtensionFunctionName(
+                        sourceClass,
+                        targetClass,
+                        packageImports
+                    )
+                }(\n"
             }
 
             missingConstructorArguments.forEachIndexed { missingArgumentIndex: Int, missingArgument: KSValueParameter ->
@@ -161,7 +181,8 @@ class MappingFunctionGenerator(
 
         // Assign matching values from source class to target class constructor
         matchingConstructorArguments.forEachIndexed { index: Int, matchingArgument: MatchingArgument ->
-            val lineEnding: String = getArgumentDeclarationLineEnding(hasNextLine = missingConstructorArguments.lastIndex != index || missingConstructorArguments.isNotEmpty())
+            val lineEnding: String =
+                getArgumentDeclarationLineEnding(hasNextLine = missingConstructorArguments.lastIndex != index || missingConstructorArguments.isNotEmpty())
             extensionFunctions += "\t${matchingArgument.targetClassPropertyName} = this.${matchingArgument.sourceClassPropertyName}"
 
             // If source class is a generic type parameter we need to cast it to avoid compilation errors
@@ -174,7 +195,8 @@ class MappingFunctionGenerator(
 
         // Assign values from function head to constructor param
         missingConstructorArguments.forEachIndexed { index: Int, paramName: KSValueParameter ->
-            val lineEnding: String = getArgumentDeclarationLineEnding(hasNextLine = missingConstructorArguments.lastIndex != index)
+            val lineEnding: String =
+                getArgumentDeclarationLineEnding(hasNextLine = missingConstructorArguments.lastIndex != index)
             extensionFunctions += "\t$paramName = $paramName$lineEnding\n"
         }
 
@@ -255,7 +277,8 @@ class MappingFunctionGenerator(
         targetClassTypeParameters: List<KSTypeParameter>,
         packageImports: PackageImports,
         sourceClassName: String,
-        targetClassName: String
+        targetClassName: String,
+        configuration: KConMapperConfiguration
     ): Pair<MutableList<KSValueParameter>, MutableList<MatchingArgument>> {
 
         val missingArguments = mutableListOf<KSValueParameter>()
@@ -271,7 +294,8 @@ class MappingFunctionGenerator(
                 val parameterNameFromSourceClass: String = parameterFromSourceClass.simpleName.asString()
 
                 // Get the aliases from the KConMapperProperty annotation, can in reality only be of type ArrayList<String>?
-                val aliases: Set<String> = findKConMapperPropertyAliases(parameterFromSourceClass.annotations + valueParam.annotations)
+                val aliases: Set<String> =
+                    findKConMapperPropertyAliases(parameterFromSourceClass.annotations + valueParam.annotations)
 
                 // The argument matches if either the actual name or the alias from the KConMapperProperty annotation is the same
                 if ((parameterNameFromSourceClass == valueName) || aliases.any { alias -> alias == valueName || alias == parameterNameFromSourceClass }) {
@@ -326,7 +350,7 @@ class MappingFunctionGenerator(
                                 typeParam.simpleName.asString() + parameterTypeFromTargetClass.markedNullableAsString()
                             }
                         )
-                    } else {
+                    } else if (!configuration.suppressMappingMismatchWarnings) {
                         logger.warn(
                             message = "Found matching parameter from class `$sourceClassName` for property `$valueName` of " +
                                     "targetClass `$targetClassName` but the type `${parameterTypeFromSourceClass}` " +

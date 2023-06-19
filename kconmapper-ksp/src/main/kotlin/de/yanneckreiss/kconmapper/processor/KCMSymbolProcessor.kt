@@ -8,6 +8,7 @@ import com.google.devtools.ksp.symbol.ClassKind
 import com.google.devtools.ksp.symbol.KSAnnotated
 import com.google.devtools.ksp.symbol.KSClassDeclaration
 import com.google.devtools.ksp.validate
+import de.yanneckreiss.kconmapper.processor.common.KConMapperConfiguration
 import de.yanneckreiss.kconmapper.processor.visitor.KCMVisitor
 
 private const val KCONMAPPER_PACKAGE_NAME = "com.github.yanneckreiss.kconmapper"
@@ -19,12 +20,15 @@ const val KCONMAPPER_ANNOTATION_NAME = "KConMapper"
  */
 class KCMSymbolProcessor(
     val codeGenerator: CodeGenerator,
-    val logger: KSPLogger
+    val logger: KSPLogger,
+    val kConMapperConfiguration: KConMapperConfiguration
 ) : SymbolProcessor {
 
     override fun process(resolver: Resolver): List<KSAnnotated> {
-        val annotationPackagePath = "$KCONMAPPER_PACKAGE_NAME.$KCONMAPPER_ANNOTATIONS_PACKAGE_NAME.$KCONMAPPER_ANNOTATION_NAME"
-        val resolvedSymbols: Sequence<KSAnnotated> = resolver.getSymbolsWithAnnotation(annotationName = annotationPackagePath)
+        val annotationPackagePath =
+            "$KCONMAPPER_PACKAGE_NAME.$KCONMAPPER_ANNOTATIONS_PACKAGE_NAME.$KCONMAPPER_ANNOTATION_NAME"
+        val resolvedSymbols: Sequence<KSAnnotated> =
+            resolver.getSymbolsWithAnnotation(annotationName = annotationPackagePath)
 
         resolvedSymbols
             .filter { ksAnnotated -> ksAnnotated is KSClassDeclaration && ksAnnotated.validate() }
@@ -44,8 +48,17 @@ class KCMSymbolProcessor(
                     }
 
                     else -> {
+                        val kcmVisitor = KCMVisitor(
+                            codeGenerator = codeGenerator,
+                            resolver = resolver,
+                            logger = logger,
+                            configuration = kConMapperConfiguration,
+                        )
                         // Class type is supported
-                        ksAnnotated.accept(KCMVisitor(codeGenerator, resolver, logger), Unit)
+                        ksAnnotated.accept(
+                            visitor = kcmVisitor,
+                            data = Unit
+                        )
                     }
                 }
             }

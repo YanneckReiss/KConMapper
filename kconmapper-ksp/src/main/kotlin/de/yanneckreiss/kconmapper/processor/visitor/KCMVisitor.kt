@@ -6,6 +6,7 @@ import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.processing.Resolver
 import com.google.devtools.ksp.symbol.*
 import de.yanneckreiss.kconmapper.processor.*
+import de.yanneckreiss.kconmapper.processor.common.KConMapperConfiguration
 import de.yanneckreiss.kconmapper.processor.generator.MappingFunctionGenerator
 import java.io.OutputStream
 
@@ -35,7 +36,8 @@ private const val GENERATED_FILE_PATH = "de.yanneckreiss.kconmapper.generated"
 class KCMVisitor(
     private val codeGenerator: CodeGenerator,
     private val resolver: Resolver,
-    private val logger: KSPLogger
+    private val logger: KSPLogger,
+    private val configuration: KConMapperConfiguration,
 ) : KSVisitorVoid() {
 
     override fun visitClassDeclaration(classDeclaration: KSClassDeclaration, data: Unit) {
@@ -63,7 +65,8 @@ class KCMVisitor(
                 extensionFunctions += mappingFunctionGenerator.generateMappingFunction(
                     targetClass = annotatedClass,
                     sourceClass = sourceClass,
-                    packageImports = packageImports
+                    packageImports = packageImports,
+                    configuration = configuration
                 )
             }
         }
@@ -73,7 +76,8 @@ class KCMVisitor(
                 extensionFunctions += mappingFunctionGenerator.generateMappingFunction(
                     targetClass = targetClass,
                     sourceClass = annotatedClass,
-                    packageImports = packageImports
+                    packageImports = packageImports,
+                    configuration = configuration
                 )
             }
         }

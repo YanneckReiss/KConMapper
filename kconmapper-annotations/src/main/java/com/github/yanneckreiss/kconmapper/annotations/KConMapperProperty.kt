@@ -7,4 +7,6 @@ package com.github.yanneckreiss.kconmapper.annotations
  * Useful if the target class has a different name than the
  * property of the sourceClass class but describes the same property.
  */
+@Target(AnnotationTarget.FIELD, AnnotationTarget.PROPERTY)
+@Retention(AnnotationRetention.SOURCE)
 annotation class KConMapperProperty(val aliases: Array<String>)
