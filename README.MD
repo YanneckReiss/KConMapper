@@ -175,7 +175,7 @@ The following section describes the required setup to use the **KConMapper** KSP
 
 > Lookup the matching KSP version from the [official GitHub release page]("https://github.com/google/ksp/releases")
 of the KSP repository.
-As an example: If you're using Kotlin version `1.8.0`, the latest KSP would be `1.8.0-1.0.8`.
+As an example: If you're using Kotlin version `1.9.10`, the latest KSP would be `1.9.10-1.0.13`.
 
 <details open>
   <summary>groovy - build.gradle(:module-name)</summary>
@@ -183,7 +183,7 @@ As an example: If you're using Kotlin version `1.8.0`, the latest KSP would be `
 ```groovy
 plugins {
     // Depends on your project's Kotlin version
-    id 'com.google.devtools.ksp' version '1.8.0-1.0.8'
+    id 'com.google.devtools.ksp' version '1.9.10-1.0.13'
 }
 ```
 </details>
@@ -194,7 +194,7 @@ plugins {
 ```kt
 plugins {
     // Depends on your project's Kotlin version
-    id("com.google.devtools.ksp") version "1.8.0-1.0.8"
+    id("com.google.devtools.ksp") version "1.9.10-1.0.13"
 }
 ```
 </details>
@@ -212,8 +212,8 @@ repositories {
 
 dependencies {
     // ..
-    implementation 'com.github.yanneckreiss.kconmapper:annotations:1.0.0-alpha06'
-    ksp 'com.github.yanneckreiss.kconmapper:ksp:1.0.0-alpha06'
+    implementation 'com.github.yanneckreiss.kconmapper:annotations:1.0.0-alpha07'
+    ksp 'com.github.yanneckreiss.kconmapper:ksp:1.0.0-alpha07'
 }
 ```
 </details>
@@ -228,8 +228,8 @@ repositories {
 
 dependencies {
  // ..
- implementation("com.github.yanneckreiss.kconmapper:annotations:1.0.0-alpha06")
- ksp("com.github.yanneckreiss.kconmapper:ksp:1.0.0-alpha06")
+ implementation("com.github.yanneckreiss.kconmapper:annotations:1.0.0-alpha07")
+ ksp("com.github.yanneckreiss.kconmapper:ksp:1.0.0-alpha07")
 }
 ```
 </details>

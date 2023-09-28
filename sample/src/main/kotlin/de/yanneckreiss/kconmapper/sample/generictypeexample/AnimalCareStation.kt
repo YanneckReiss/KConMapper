@@ -5,8 +5,11 @@ import de.yanneckreiss.kconmapper.sample.generictypeexample.cat.CatCareStation
 import de.yanneckreiss.kconmapper.sample.generictypeexample.dog.DogCareStation
 import java.time.LocalDateTime
 
-@KConMapper(fromClasses = [CatCareStation::class, DogCareStation::class])
-class AnimalCareStation<C : Animal>(
+@KConMapper(
+    toClasses = [CatCareStation::class, DogCareStation::class],
+    fromClasses = [CatCareStation::class, DogCareStation::class],
+)
+class AnimalCareStation<out C : Animal>(
     val animalOne: C,
     val animalTwo: C,
     val timestamp: LocalDateTime
