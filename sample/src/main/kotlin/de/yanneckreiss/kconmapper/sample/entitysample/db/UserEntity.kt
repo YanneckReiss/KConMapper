@@ -1,11 +1,11 @@
 package de.yanneckreiss.kconmapper.sample.entitysample.db
 
 import com.github.yanneckreiss.kconmapper.annotations.KConMapper
-import com.github.yanneckreiss.kconmapper.annotations.KConMapperProperty
 import de.yanneckreiss.kconmapper.sample.entitysample.dto.CreateUserDTO
 import de.yanneckreiss.kconmapper.sample.entitysample.dto.UpdateUserDTO
 import de.yanneckreiss.kconmapper.sample.entitysample.model.Address
-import java.util.*
+import java.util.UUID
+
 
 @KConMapper(
     fromClasses = [CreateUserDTO::class, UpdateUserDTO::class],

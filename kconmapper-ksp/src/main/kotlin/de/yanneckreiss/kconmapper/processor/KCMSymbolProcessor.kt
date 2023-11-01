@@ -1,5 +1,6 @@
 package de.yanneckreiss.kconmapper.processor
 
+import com.github.yanneckreiss.kconmapper.annotations.KConMapper
 import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.processing.Resolver
@@ -25,10 +26,8 @@ class KCMSymbolProcessor(
 ) : SymbolProcessor {
 
     override fun process(resolver: Resolver): List<KSAnnotated> {
-        val annotationPackagePath =
-            "$KCONMAPPER_PACKAGE_NAME.$KCONMAPPER_ANNOTATIONS_PACKAGE_NAME.$KCONMAPPER_ANNOTATION_NAME"
-        val resolvedSymbols: Sequence<KSAnnotated> =
-            resolver.getSymbolsWithAnnotation(annotationName = annotationPackagePath)
+
+        val resolvedSymbols: Sequence<KSAnnotated> = resolver.getSymbolsWithAnnotation(annotationName = KConMapper::class.qualifiedName!!)
 
         resolvedSymbols
             .filter { ksAnnotated -> ksAnnotated is KSClassDeclaration && ksAnnotated.validate() }

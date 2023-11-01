@@ -6,6 +6,7 @@ import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.processing.Resolver
 import com.google.devtools.ksp.symbol.*
 import de.yanneckreiss.kconmapper.processor.*
+import de.yanneckreiss.kconmapper.processor.KCMConstants.GENERATED_FILE_PATH
 import de.yanneckreiss.kconmapper.processor.common.KConMapperConfiguration
 import de.yanneckreiss.kconmapper.processor.generator.MappingFunctionGenerator
 import java.io.OutputStream
@@ -19,7 +20,6 @@ private const val KCONMAPPER_TARGET_CLASSES_ANNOTATION_ARG_NAME = "toClasses"
 private const val GENERATED_CLASS_SUFFIX = "KConMapperExtensions"
 private const val SUPPRESS_UNCHECKED_CAST_STATEMENT = "@file:Suppress(\"UNCHECKED_CAST\")\n\n"
 private const val PACKAGE_STATEMENT = "package"
-private const val GENERATED_FILE_PATH = "de.yanneckreiss.kconmapper.generated"
 
 /**
  * Iterates over the [KConMapper] annotated classes and generates extension functions that
